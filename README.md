@@ -3,7 +3,7 @@
 <div align="center">
 
 ```ocaml
- ❄️ hyprland / aurora / catppuccin ❄️
+ My Hyprland Setup
 ```
 
 
@@ -35,11 +35,7 @@ https://user-images.githubusercontent.com/77581181/204240865-8a272152-7c31-45f9-
 ## Arch
 dependencies
 ```
-hyprland-git waybar-hyprland-git cava waybar-mpris-git python rustup kitty fish wofi xdg-desktop-portal-hyprland-git tty-clock-git swaylockd grim slurp pokemon-colorscripts-git starship jq dunst wl-clipboard swaylock-effects-git swww-git
-```
-using `paru`
-```
-paru -S hyprland-git waybar-hyprland-git cava waybar-mpris-git python rustup kitty fish wofi xdg-desktop-portal-hyprland-git tty-clock-git swaylockd grim slurp pokemon-colorscripts-git starship jq dunst wl-clipboard swaylock-effects-git swww-git
+sudo pacman -S hyprland-git waybar-hyprland-git cava waybar-mpris-git python rustup wofi xdg-desktop-portal-hyprland-git tty-clock-git swaylockd grim flameshot pokemon-colorscripts-git starship jq dunst wl-clipboard swaylock-effects-git swww-git
 ```
 
 ## moving config files

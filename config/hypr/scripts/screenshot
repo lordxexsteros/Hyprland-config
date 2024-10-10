@@ -1,3 +1,7 @@
 #!/usr/bin/bash
-grim -g "$(slurp)" - | wl-copy
+
+# Use Flameshot to take a screenshot and copy it to the clipboard
+flameshot gui --raw | wl-copy
+
+# Notify the user that the screenshot has been copied
 notify-send "Screenshot copied to clipboard" -a "ss"
