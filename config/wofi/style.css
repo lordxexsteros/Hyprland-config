@@ -14,11 +14,12 @@ window {
     font-weight: bold;
     background-color: #fff;
     background: linear-gradient(90deg, rgba(203,166,247,1) 0%, rgba(245,194,231,1) 100%);
-   	outline: none;
+    outline: none;
     border-radius: 15px;
     margin: 10px;
     margin-bottom: 2px;
 }
+
 #input:focus {
     border: 0px solid #fff;
     margin-bottom: 0px;

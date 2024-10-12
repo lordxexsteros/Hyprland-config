@@ -1,23 +1,60 @@
-#!/usr/bin/bash
+#!/usr/bin/env bash
 
-# variables
-config=$HOME/.config/hypr
-scripts=$config/scripts
+# Variables
+config="$HOME/.config/hypr"
+scripts="$config/scripts"
+hyprpaper_config="$config/hyprpaper.conf"  # Path to your hyprpaper config
 
-# notification daemon
-dunst &
+# Function to check if a command exists
+command_exists() {
+    command -v "$1" &> /dev/null
+}
 
-# waybar
-$scripts/launch_waybar &
-$scripts/tools/dynamic &
+# Start notification daemon
+if command_exists dunst; then
+    dunst &
+else
+    echo "Warning: dunst not found."
+fi
 
-# wallpaper
-$scripts/wall $config/wallpapers/4.jpg &
+# Start Waybar
+if command_exists "$scripts/launch_waybar"; then
+    "$scripts/launch_waybar" &
+else
+    echo "Warning: launch_waybar script not found."
+fi
 
-# effects
-$scripts/rgb &
+# Start dynamic tools
+if command_exists "$scripts/tools/dynamic"; then
+    "$scripts/tools/dynamic" &
+else
+    echo "Warning: dynamic script not found."
+fi
 
-# other
-/usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+# Load hyprpaper config
+if command_exists hyprpaper; then
+    hyprpaper load "$hyprpaper_config" &
+else
+    echo "Warning: hyprpaper not found."
+fi
+
+# Start RGB effects
+if command_exists "$scripts/rgb"; then
+    "$scripts/rgb" &
+else
+    echo "Warning: rgb script not found."
+fi
+
+# Start PolicyKit authentication agent
+if command_exists /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1; then
+    /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
+else
+    echo "Warning: PolicyKit authentication agent not found."
+fi
+
+# Update DBus environment variables
 dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP &
+
+# Send greeting notification
 notify-send -a aurora "hello $(whoami)" &
+echo "Startup scripts initiated."

@@ -14,7 +14,7 @@ else
 fi
 
 # Install packages
-packages=("hyprland" "dunst" "cava" "wofi" "waybar" "swww")
+packages=("hyprland" "dunst" "cava" "wofi" "waybar" "swww" "hyprpaper")
 for package in "${packages[@]}"; do
     echo "Installing $package..."
     if sudo pacman -S --noconfirm "$package"; then

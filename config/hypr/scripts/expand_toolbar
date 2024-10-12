@@ -1,11 +1,21 @@
 #!/bin/bash
 
+# Path to the lock file
 LOCK=/tmp/expand_toolbar.lock
 
+# Check if the lock file exists
 if [ -f "$LOCK" ]; then
-    echo expand
-    rm -f "$LOCK"
+    echo "expand"  # Output expand if the lock file exists
+    rm -f "$LOCK"  # Remove the lock file
+    if [ $? -ne 0 ]; then  # Check if the removal was successful
+        echo "Error: Could not remove lock file."
+        exit 1  # Exit with an error code
+    fi
 else 
-    echo collapse
-    touch "$LOCK"
+    echo "collapse"  # Output collapse if the lock file does not exist
+    touch "$LOCK"  # Create the lock file
+    if [ $? -ne 0 ]; then  # Check if the creation was successful
+        echo "Error: Could not create lock file."
+        exit 1  # Exit with an error code
+    fi
 fi
