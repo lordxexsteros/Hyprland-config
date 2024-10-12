@@ -3,7 +3,7 @@
 <div align="center">
 
 ```ocaml
- 🧿NEXEN🧿
+🧿Alacrity/Wofi/Dunst/Cava🧿
 ```
 
 
@@ -29,34 +29,26 @@
 </div>
 </div>
 
-## Archlinux
-dependencies
-```
-sudo pacman -S hyprland-git waybar-hyprland-git cava waybar-mpris-git python rustup wofi xdg-desktop-portal-hyprland-git tty-clock-git swaylockd grim flameshot starship jq dunst wl-clipboard swaylock-effects-git swww-git
+1.Copy the repo and cd into it
+```bash
+git clone https://github.com/lordxexsteros/Hyprland-config
+cd Nexus
 ```
 
-## Seting up config files
+## Ensure it has the proper execute permissions
 
 ```bash
-git clone -b nexen https://github.com/lordxexsteros/Hyprland-config
-cd dotfiles
-cp -r ./config/* ~/.config
+chmod +x install.sh
 ```
 
-# Extras
-
-## additional setup
+## Run it
 
 ```bash
-mkdir ~/.config/hypr/store
-touch ~/.config/hypr/store/dynamic_out.txt
-touch ~/.config/hypr/store/prev.txt
-touch ~/.config/hypr/store/latest_notif
-
-chmod +x ~/.config/hypr/scripts/tools/*
-chmod +x ~/.config/hypr/scripts/*
-chmod +x ~/.config/hypr/*
+./install.sh
 ```
+
+## Follow the promt of the installer and make sure to reboot you system
+
 
 
 
