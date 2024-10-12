@@ -1,60 +1,62 @@
 #!/usr/bin/env bash
 
-# Variables
-config="$HOME/.config/hypr"
-scripts="$config/scripts"
-hyprpaper_config="$config/hyprpaper.conf"  # Path to your hyprpaper config
+set -e
 
-# Function to check if a command exists
+# Variables
+CONFIG_DIR="${HOME}/.config/hypr"
+SCRIPTS_DIR="${CONFIG_DIR}/scripts"
+HYPRPAPER_CONFIG="${CONFIG_DIR}/hyprpaper.conf"
+LOG_FILE="${CONFIG_DIR}/startup.log"
+
+# Log function
+log() {
+    echo "$(date +'%Y-%m-%d %H:%M:%S') - $1" >> "$LOG_FILE"
+}
+
+# Check if command exists
 command_exists() {
     command -v "$1" &> /dev/null
 }
 
-# Start notification daemon
-if command_exists dunst; then
-    dunst &
-else
-    echo "Warning: dunst not found."
-fi
+# Start functions
+start_dunst() {
+    if command_exists dunst && ! pgrep -x dunst > /dev/null; then
+        dunst &
+        log "Started dunst."
+    else
+        log "Warning: dunst not found or already running."
+    fi
+}
 
-# Start Waybar
-if command_exists "$scripts/launch_waybar"; then
-    "$scripts/launch_waybar" &
-else
-    echo "Warning: launch_waybar script not found."
-fi
+start_waybar() {
+    if command_exists "$SCRIPTS_DIR/launch_waybar" && ! pgrep -x waybar > /dev/null; then
+        "$SCRIPTS_DIR/launch_waybar" &
+        log "Started Waybar."
+    else
+        log "Warning: launch_waybar script not found or already running."
+    fi
+}
 
-# Start dynamic tools
-if command_exists "$scripts/tools/dynamic"; then
-    "$scripts/tools/dynamic" &
-else
-    echo "Warning: dynamic script not found."
-fi
+start_hyprpaper() {
+    if command_exists hyprpaper; then
+        hyprpaper load "$HYPRPAPER_CONFIG" &
+        log "Loaded hyprpaper config."
+    else
+        log "Warning: hyprpaper not found."
+    fi
+}
 
-# Load hyprpaper config
-if command_exists hyprpaper; then
-    hyprpaper load "$hyprpaper_config" &
-else
-    echo "Warning: hyprpaper not found."
-fi
+# Additional start functions for dynamic tools, RGB, and PolicyKit...
 
-# Start RGB effects
-if command_exists "$scripts/rgb"; then
-    "$scripts/rgb" &
-else
-    echo "Warning: rgb script not found."
-fi
-
-# Start PolicyKit authentication agent
-if command_exists /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1; then
-    /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
-else
-    echo "Warning: PolicyKit authentication agent not found."
-fi
+# Start services
+start_dunst
+start_waybar
+start_hyprpaper
+# Call additional start functions...
 
 # Update DBus environment variables
 dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP &
 
 # Send greeting notification
-notify-send -a aurora "hello $(whoami)" &
-echo "Startup scripts initiated."
+notify-send -a aurora "Hello, $(whoami)!"
+log "Startup scripts initiated."

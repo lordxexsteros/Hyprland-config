@@ -1,60 +1,62 @@
 #!/bin/bash
 
+LOGFILE="setup_config.log"
+exec > >(tee -a "$LOGFILE") 2>&1
+
 echo "=============================="
 echo "Setting up configuration files..."
 echo "=============================="
 
 # Create necessary directories
-mkdir -p ~/.config/hypr/component/waybar
-mkdir -p ~/.config/hypr/conf
-mkdir -p ~/.config/hypr/scripts/tools
-mkdir -p ~/.config/hypr/store
-mkdir -p ~/.config/hypr/wallpapers
-mkdir -p ~/.config/dunst
-mkdir -p ~/.config/cava
-mkdir -p ~/.config/wofi
+declare -a directories=(
+    "~/.config/hypr/component/waybar"
+    "~/.config/hypr/conf"
+    "~/.config/hypr/scripts/tools"
+    "~/.config/hypr/store"
+    "~/.config/hypr/wallpapers"
+    "~/.config/dunst"
+    "~/.config/cava"
+    "~/.config/wofi"
+)
+
+for dir in "${directories[@]}"; do
+    mkdir -p "$dir" || { echo "Failed to create directory: $dir"; exit 1; }
+done
 
 # Copy configuration files to respective directories
 echo "=============================="
 echo "Copying configuration files..."
 echo "=============================="
 
-cp -r config/hypr/hyprpaper ~/.config/hypr/
-rm -rf config/hypr/hyprpaper # Delete after copying
+# Use associative arrays for source and destination paths
+declare -A config_paths=(
+    ["config/hypr/hyprpaper"]="~/.config/hypr/hyprpaper"
+    ["config/hypr/hyprland.conf"]="~/.config/hypr/hyprland.conf"
+    ["config/hypr/component/waybar/config"]="~/.config/hypr/component/waybar/config"
+    ["config/hypr/component/waybar/style.css"]="~/.config/hypr/component/waybar/style.css"
+    ["config/hypr/conf"]="~/.config/hypr/conf/"
+    ["config/hypr/scripts"]="~/.config/hypr/scripts/"
+    ["config/hypr/store"]="~/.config/hypr/store/"
+    ["config/hypr/wallpapers"]="~/.config/hypr/wallpapers/"
+    ["config/dunst/dunstrc"]="~/.config/dunst/dunstrc"
+    ["config/cava/config"]="~/.config/cava/config"
+    ["config/wofi"]="~/.config/wofi/"
+)
 
-cp -r config/hypr/hyprland.conf ~/.config/hypr/
-rm -rf config/hypr/hyprland.conf # Delete after copying
-
-cp -r config/hypr/component/waybar/config ~/.config/hypr/component/waybar/
-rm -rf config/hypr/component/waybar/config # Delete after copying
-
-cp -r config/hypr/component/waybar/style.css ~/.config/hypr/component/waybar/
-rm -rf config/hypr/component/waybar/style.css # Delete after copying
-
-cp -r config/hypr/conf/* ~/.config/hypr/conf/
-rm -rf config/hypr/conf/* # Delete after copying
-
-cp -r config/hypr/scripts/* ~/.config/hypr/scripts/
-rm -rf config/hypr/scripts/* # Delete after copying
-
-cp -r config/hypr/store/* ~/.config/hypr/store/
-rm -rf config/hypr/store/* # Delete after copying
-
-cp -r config/hypr/wallpapers/* ~/.config/hypr/wallpapers/
-rm -rf config/hypr/wallpapers/* # Delete after copying
-
-cp -r config/dunst/dunstrc ~/.config/dunst/
-rm -rf config/dunst/dunstrc # Delete after copying
-
-cp -r config/cava/config ~/.config/cava/
-rm -rf config/cava/config # Delete after copying
-
-cp -r config/wofi/* ~/.config/wofi/
-rm -rf config/wofi/* # Delete after copying
+for src in "${!config_paths[@]}"; do
+    dest="${config_paths[$src]}"
+    if [[ -d $src ]]; then
+        cp -r "$src"/* "$dest" || { echo "Failed to copy from $src to $dest"; exit 1; }
+        rm -rf "$src/*"
+    else
+        cp "$src" "$dest" || { echo "Failed to copy $src to $dest"; exit 1; }
+        rm -rf "$src"
+    fi
+done
 
 # Set executable permission for scripts
-chmod +x ~/.config/hypr/scripts/*
+chmod +x ~/.config/hypr/scripts/* || { echo "Failed to set executable permissions."; exit 1; }
 
 echo "=============================="
-echo "configuration setup complete!"
+echo "Configuration setup complete!"
 echo "=============================="

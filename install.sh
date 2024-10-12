@@ -1,5 +1,9 @@
 #!/bin/bash
 
+# Log file for installation
+LOGFILE="nexus_install.log"
+exec > >(tee -a "$LOGFILE") 2>&1
+
 # Function to display a welcome message
 welcome_message() {
     cat << "EOF"
@@ -19,8 +23,12 @@ EOF
 
 # Function to detect the distro
 detect_distro() {
-    DISTRO=$(grep "^ID=" /etc/*-release | cut -d '=' -f 2)
-    echo "$DISTRO"
+    if [[ -f /etc/os-release ]]; then
+        . /etc/os-release
+        echo "$ID"
+    else
+        echo "unknown"
+    fi
 }
 
 # Function to install packages based on the detected distro
@@ -30,16 +38,28 @@ install_packages() {
     echo "Detected Distro: $distro"
     case "$distro" in
         arch)
-            ~/Install/.install_arch.sh
+            if ! ~/Install/.install_arch.sh; then
+                echo "Error installing Arch packages."
+                exit 1
+            fi
             ;;
         fedora)
-            ~/Install/.install_fedora.sh
+            if ! ~/Install/.install_fedora.sh; then
+                echo "Error installing Fedora packages."
+                exit 1
+            fi
             ;;
         debian|ubuntu)
-            ~/Install/.install_debian.sh
+            if ! ~/Install/.install_debian.sh; then
+                echo "Error installing Debian/Ubuntu packages."
+                exit 1
+            fi
             ;;
         nixos)
-            ~/Install/.install_nixos.sh
+            if ! ~/Install/.install_nixos.sh; then
+                echo "Error installing NixOS packages."
+                exit 1
+            fi
             ;;
         *)
             echo "=============================="
@@ -56,7 +76,22 @@ setup_configuration() {
     echo "=============================="
     echo "Setting up Nexus configuration files..."
     echo "=============================="
-    ./setup_config.sh
+    if ! ./setup_config.sh; then
+        echo "Error setting up configuration files."
+        exit 1
+    fi
+}
+
+# Function to prompt for system reboot
+prompt_reboot() {
+    read -p "Do you want to reboot the system now? (y/n): " confirmation
+    confirmation=${confirmation,,}  # Convert to lowercase
+    if [[ "$confirmation" == "y" ]]; then
+        echo "Rebooting the system..."
+        sudo reboot
+    else
+        echo "You can reboot the system later."
+    fi
 }
 
 # Main installer logic
@@ -66,6 +101,7 @@ main() {
 
     # Ask user for confirmation before proceeding
     read -p "Do you want to proceed with the Nexus installation? (y/n): " confirmation
+    confirmation=${confirmation,,}  # Convert to lowercase
     if [[ "$confirmation" != "y" ]]; then
         echo "Installation cancelled."
         exit 0
@@ -77,6 +113,9 @@ main() {
     echo "=============================="
     echo "Nexus installation completed successfully!"
     echo "=============================="
+
+    # Call the reboot prompt function
+    prompt_reboot
 }
 
 # Run the main function
