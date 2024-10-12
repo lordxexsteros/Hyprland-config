@@ -32,7 +32,7 @@
 ## Archlinux
 dependencies
 ```
-sudo pacman -S hyprland-git waybar-hyprland-git cava waybar-mpris-git python rustup wofi xdg-desktop-portal-hyprland-git tty-clock-git swaylockd grim flameshot pokemon-colorscripts-git starship jq dunst wl-clipboard swaylock-effects-git swww-git
+sudo pacman -S hyprland-git waybar-hyprland-git cava waybar-mpris-git python rustup wofi xdg-desktop-portal-hyprland-git tty-clock-git swaylockd grim flameshot starship jq dunst wl-clipboard swaylock-effects-git swww-git
 ```
 
 ## Seting up config files

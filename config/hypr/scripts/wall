@@ -1,3 +1,13 @@
 #!/usr/bin/bash
 swww init
 swww img $1 --transition-type grow --transition-pos "$(hyprctl cursorpos)" --transition-duration 3
+
+if [[ ! -f $1 ]]; then
+    echo "Error: File '$1' not found."
+    exit 1
+fi
+
+if [[ -z $1 ]]; then
+    echo "Usage: $0 path/to/image.jpg"
+    exit 1
+fi
