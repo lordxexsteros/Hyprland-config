@@ -29,25 +29,25 @@
 </div>
 </div>
 
-1.Copy the repo and cd into it
+## 1.Copy the repo and cd into it
 ```bash
 git clone https://github.com/lordxexsteros/Hyprland-config
 cd Nexus
 ```
 
-## Ensure it has the proper execute permissions
+## 2.Ensure it has the proper execute permissions
 
 ```bash
 chmod +x install.sh
 ```
 
-## Run it
+## 3.Run it
 
 ```bash
 ./install.sh
 ```
 
-## Follow the promt of the installer and make sure to reboot you system
+## Follow the promt of the installer and make sure to reboot you system!
 
 
 
