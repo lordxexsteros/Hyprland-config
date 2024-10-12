@@ -29,7 +29,7 @@
 
 ## 1. Copy the repo and cd into it
 ```bash
-git clone https://github.com/lordxexsteros/Hyprland-config
+git clone https://github.com/lordxexsteros/Nexus
 cd Nexus
 ```
 
