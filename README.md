@@ -2,9 +2,7 @@
 
 <div align="center">
 
-```ocaml
-  🧿Alacrity/Wofi/Dunst/Cava🧿
-```
+# 🧿Alacrity/Wofi/Dunst/Cava🧿
 
 
 # Preview
