@@ -30,16 +30,16 @@ install_packages() {
     echo "Detected Distro: $distro"
     case "$distro" in
         arch)
-            ~/installer/.install_arch.sh
+            ~/Install/.install_arch.sh
             ;;
         fedora)
-            ~/installer/.install_fedora.sh
+            ~/Install/.install_fedora.sh
             ;;
         debian|ubuntu)
-            ~/installer/.install_debian.sh
+            ~/Install/.install_debian.sh
             ;;
         nixos)
-            ~/installer/.install_nixos.sh
+            ~/Install/.install_nixos.sh
             ;;
         *)
             echo "=============================="
