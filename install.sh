@@ -1,7 +1,7 @@
 #!/bin/bash
 
-# Log file for installation (you can modify the path as needed)
-LOGFILE="/var/log/nexus_install.log"
+# Log file for installation
+LOGFILE="$HOME/nexus_install.log"
 exec > >(tee -a "$LOGFILE") 2>&1
 
 # Check if the script is run with root privileges
@@ -44,33 +44,41 @@ install_packages() {
     echo "Detected Distro: $distro"
     case "$distro" in
         arch|manjaro)
-            local arch_script="$HOME/Nexus/Install/.install_arch.sh"
-            [[ -x "$arch_script" ]] || { echo "Arch installation script not found or not executable."; exit 1; }
-            if ! "$arch_script"; then
+            if [[ ! -x "$HOME/Nexus/Install/.install_arch.sh" ]]; then
+                echo "Arch installation script not found or not executable."
+                exit 1
+            fi
+            if ! "$HOME/Nexus/Install/.install_arch.sh"; then
                 echo "Error installing Arch/Manjaro packages."
                 exit 1
             fi
             ;;
         fedora)
-            local fedora_script="$HOME/Nexus/Install/.install_fedora.sh"
-            [[ -x "$fedora_script" ]] || { echo "Fedora installation script not found or not executable."; exit 1; }
-            if ! "$fedora_script"; then
+            if [[ ! -x "$HOME/Nexus/Install/.install_fedora.sh" ]]; then
+                echo "Fedora installation script not found or not executable."
+                exit 1
+            fi
+            if ! "$HOME/Nexus/Install/.install_fedora.sh"; then
                 echo "Error installing Fedora packages."
                 exit 1
             fi
             ;;
         debian|ubuntu|pop)
-            local debian_script="$HOME/Nexus/Install/.install_debian.sh"
-            [[ -x "$debian_script" ]] || { echo "Debian/Ubuntu installation script not found or not executable."; exit 1; }
-            if ! "$debian_script"; then
+            if [[ ! -x "$HOME/Nexus/Install/.install_debian.sh" ]]; then
+                echo "Debian/Ubuntu installation script not found or not executable."
+                exit 1
+            fi
+            if ! "$HOME/Nexus/Install/.install_debian.sh"; then
                 echo "Error installing Debian/Ubuntu/Pop!_OS packages."
                 exit 1
             fi
             ;;
         nixos)
-            local nixos_script="$HOME/Nexus/Install/.install_nixos.sh"
-            [[ -x "$nixos_script" ]] || { echo "NixOS installation script not found or not executable."; exit 1; }
-            if ! "$nixos_script"; then
+            if [[ ! -x "$HOME/Nexus/Install/.install_nixos.sh" ]]; then
+                echo "NixOS installation script not found or not executable."
+                exit 1
+            fi
+            if ! "$HOME/Nexus/Install/.install_nixos.sh"; then
                 echo "Error installing NixOS packages."
                 exit 1
             fi
@@ -90,9 +98,11 @@ setup_configuration() {
     echo "=============================="
     echo "Setting up Nexus configuration files..."
     echo "=============================="
-    local config_script="$HOME/Nexus/Install/setup_config.sh"
-    [[ -x "$config_script" ]] || { echo "Configuration setup script not found or not executable."; exit 1; }
-    if ! "$config_script"; then
+    if [[ ! -x "$HOME/Nexus/Install/setup_config.sh" ]]; then
+        echo "Configuration setup script not found or not executable."
+        exit 1
+    fi
+    if ! "$HOME/Nexus/Install/setup_config.sh"; then
         echo "Error setting up configuration files."
         exit 1
     fi
