@@ -1,12 +1,14 @@
 <div align="justify">
-
 <div align="center">
 
-# 🧿Alacrity/Wofi/Dunst/Cava🧿
+# Project-Nexus V1.0 Release
+**Uses**
+<br>
+**🧿Alacrity/Wofi/Dunst/Cava/Hyprpaper/swaylockd🧿**
 
 
 # Preview
-WIP
+WIP!!!!!!!!!!!!!
 
 
 </div>
@@ -19,7 +21,13 @@ WIP
 
 <div align="center">
 
-# installation
+# 🚨Inportant Note❗
+**This Setup works best for Arch Linux (and Arch based distros) and ⚠️does not support debian based distros!⚠️**
+<br>
+**For Fedora hyprpaper must be installed seperately.**
+
+
+# Installation
  
 <hr>
  
