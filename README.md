@@ -6,8 +6,7 @@
 
 
 # Preview
-![pipes](./assets/pipes.png)
-![fetch](./assets/fetch.png)
+WIP
 
 
 </div>
