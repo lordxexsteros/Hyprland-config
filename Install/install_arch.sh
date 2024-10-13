@@ -3,7 +3,7 @@
 # Exit immediately if a command exits with a non-zero status
 set -e
 
-LOGFILE="install_packages.log"
+LOGFILE="$HOME/install_packages.log"
 exec > >(tee -a "$LOGFILE") 2>&1
 
 echo "=============================="
