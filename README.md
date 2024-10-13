@@ -42,7 +42,7 @@ chmod +x install.sh
 ## 3. Run it
 
 ```bash
-./install.sh
+sudo ~/Nexus/install.sh
 ```
 
 ## Follow the promt of the installer and make sure to reboot you system!
