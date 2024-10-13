@@ -44,19 +44,19 @@ install_packages() {
             fi
             ;;
         fedora)
-            if ! ~/Install/.install_fedora.sh; then
+            if ! ~/Nexus/Install/.install_fedora.sh; then
                 echo "Error installing Fedora packages."
                 exit 1
             fi
             ;;
         debian|ubuntu)
-            if ! ~/Install/.install_debian.sh; then
+            if ! ~/Nexus/Install/.install_debian.sh; then
                 echo "Error installing Debian/Ubuntu packages."
                 exit 1
             fi
             ;;
         nixos)
-            if ! ~/Install/.install_nixos.sh; then
+            if ! ~/Nexus/Install/.install_nixos.sh; then
                 echo "Error installing NixOS packages."
                 exit 1
             fi
