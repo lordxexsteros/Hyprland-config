@@ -15,7 +15,7 @@ cat << "EOF"
     cava
     wofi
     waybar
-    swww # If available in Nixpkgs
+    swaylockd
     hyprpaper
     alacritty
     pavucontrol

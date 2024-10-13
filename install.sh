@@ -63,16 +63,6 @@ install_packages() {
                 exit 1
             fi
             ;;
-        debian|ubuntu|pop)
-            if [[ ! -x "$HOME/Nexus/Install/.install_debian.sh" ]]; then
-                echo "Debian/Ubuntu installation script not found or not executable."
-                exit 1
-            fi
-            if ! "$HOME/Nexus/Install/.install_debian.sh"; then
-                echo "Error installing Debian/Ubuntu/Pop!_OS packages."
-                exit 1
-            fi
-            ;;
         nixos)
             if [[ ! -x "$HOME/Nexus/Install/.install_nixos.sh" ]]; then
                 echo "NixOS installation script not found or not executable."

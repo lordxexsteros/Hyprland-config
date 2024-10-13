@@ -19,13 +19,27 @@ else
     exit 1
 fi
 
-# Install packages
-packages=("hyprland" "dunst" "cava" "wofi" "waybar" "swww" "hyprpaper" "alacritty" "pavucontrol")
+# Install official repository packages
+official_packages=("dunst" "cava" "wofi" "waybar" "alacritty" "pavucontrol")
 echo "=============================="
-echo "Installing packages..."
-for package in "${packages[@]}"; do
+echo "Installing official packages..."
+for package in "${official_packages[@]}"; do
     echo "Installing $package..."
     if sudo pacman -S --noconfirm "$package"; then
+        echo "$package installed successfully."
+    else
+        echo "Failed to install $package."
+        exit 1
+    fi
+done
+
+# Install AUR packages using yay
+aur_packages=("hyprland" "swaylockd" "hyprpaper")
+echo "=============================="
+echo "Installing AUR packages..."
+for package in "${aur_packages[@]}"; do
+    echo "Installing $package..."
+    if yay -S --noconfirm "$package"; then
         echo "$package installed successfully."
     else
         echo "Failed to install $package."
