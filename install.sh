@@ -76,7 +76,7 @@ setup_configuration() {
     echo "=============================="
     echo "Setting up Nexus configuration files..."
     echo "=============================="
-    if ! ./setup_config.sh; then
+    if ! ~/Nexus/Install/./setup_config.sh; then
         echo "Error setting up configuration files."
         exit 1
     fi
