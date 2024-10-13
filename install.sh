@@ -1,8 +1,14 @@
 #!/bin/bash
 
-# Log file for installation
-LOGFILE="nexus_install.log"
+# Log file for installation (you can modify the path as needed)
+LOGFILE="/var/log/nexus_install.log"
 exec > >(tee -a "$LOGFILE") 2>&1
+
+# Check if the script is run with root privileges
+if [[ "$EUID" -ne 0 ]]; then
+    echo "Please run this script as root (using sudo)."
+    exit 1
+fi
 
 # Function to display a welcome message
 welcome_message() {
@@ -37,25 +43,41 @@ install_packages() {
     
     echo "Detected Distro: $distro"
     case "$distro" in
-        arch)
-            if ! ~/Install/.install_arch.sh; then
-                echo "Error installing Arch packages."
+        arch|manjaro)
+            if [[ ! -x ~/Nexus/Install/.install_arch.sh ]]; then
+                echo "Arch installation script not found or not executable."
+                exit 1
+            fi
+            if ! ~/Nexus/Install/.install_arch.sh; then
+                echo "Error installing Arch/Manjaro packages."
                 exit 1
             fi
             ;;
         fedora)
+            if [[ ! -x ~/Nexus/Install/.install_fedora.sh ]]; then
+                echo "Fedora installation script not found or not executable."
+                exit 1
+            fi
             if ! ~/Nexus/Install/.install_fedora.sh; then
                 echo "Error installing Fedora packages."
                 exit 1
             fi
             ;;
-        debian|ubuntu)
+        debian|ubuntu|pop)
+            if [[ ! -x ~/Nexus/Install/.install_debian.sh ]]; then
+                echo "Debian/Ubuntu installation script not found or not executable."
+                exit 1
+            fi
             if ! ~/Nexus/Install/.install_debian.sh; then
-                echo "Error installing Debian/Ubuntu packages."
+                echo "Error installing Debian/Ubuntu/Pop!_OS packages."
                 exit 1
             fi
             ;;
         nixos)
+            if [[ ! -x ~/Nexus/Install/.install_nixos.sh ]]; then
+                echo "NixOS installation script not found or not executable."
+                exit 1
+            fi
             if ! ~/Nexus/Install/.install_nixos.sh; then
                 echo "Error installing NixOS packages."
                 exit 1
@@ -76,7 +98,11 @@ setup_configuration() {
     echo "=============================="
     echo "Setting up Nexus configuration files..."
     echo "=============================="
-    if ! ~/Nexus/Install/./setup_config.sh; then
+    if [[ ! -x ~/Nexus/Install/setup_config.sh ]]; then
+        echo "Configuration setup script not found or not executable."
+        exit 1
+    fi
+    if ! ~/Nexus/Install/setup_config.sh; then
         echo "Error setting up configuration files."
         exit 1
     fi
