@@ -20,7 +20,7 @@ else
 fi
 
 # Install packages
-packages=("hyprland" "dunst" "cava" "wofi" "waybar" "swww" "hyprpaper" "alacrity" "pauvcontrol")
+packages=("hyprland" "dunst" "cava" "wofi" "waybar" "swww" "hyprpaper" "alacritty" "pavucontrol")
 echo "=============================="
 echo "Installing packages..."
 for package in "${packages[@]}"; do
